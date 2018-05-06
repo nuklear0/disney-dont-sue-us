@@ -4,8 +4,9 @@ using UnityEngine;
 
 public class StartPlatform : MonoBehaviour {
     private GameObject gameManager;
-	// Use this for initialization
-	void Start () {
+    [SerializeField] GameObject playerPlatform;
+    // Use this for initialization
+    void Start () {
         gameManager = GameObject.FindGameObjectWithTag("gameManager");
 	}
 	
@@ -22,10 +23,7 @@ public class StartPlatform : MonoBehaviour {
             {
                 gameManager.GetComponent<AudioScript>().playBackgroundMusic();
             }
-            foreach (GameObject p in GameObject.FindGameObjectsWithTag("platform"))
-            {
-                p.GetComponent<PlatformScript>().enabled = true;
-            }
+            playerPlatform.GetComponent<PlatformScript>().enabled = true;
         }
     }
 }

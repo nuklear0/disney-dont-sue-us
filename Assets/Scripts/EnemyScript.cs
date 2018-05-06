@@ -7,35 +7,55 @@ public class EnemyScript : MonoBehaviour {
     [SerializeField] private GameObject bullet;
     [SerializeField] private Transform bulletSpawn;
     private GameObject player;
+    private bool running;
+    private bool dead = false;
 	// Use this for initialization
 	void Start () {
         player = GameObject.FindGameObjectWithTag("Player");
         actions = gameObject.GetComponent<Actions>();
-        StartCoroutine(fire());
 	}
 	
 	// Update is called once per frame
 	void Update () {
-        transform.LookAt(player.transform);
+        if (Vector3.Distance(transform.position, player.transform.position) < 15 && !running && !dead)
+        {
+            StartCoroutine(fire());
+        }
+        else
+        {
+            StopCoroutine(fire());
+        }
+        if (!dead)
+        {
+            transform.LookAt(player.transform);
+        }
 	}
 
     IEnumerator fire()
     {
-        actions.Walk();
-        yield return new WaitForSeconds(2f);
+        running = true;
         actions.Aiming();
-        yield return new WaitForSeconds(2f);
+        yield return new WaitForSeconds(0.5f);
         actions.Attack();
         spawnBullet();
-        yield return new WaitForSeconds(2f);
-        actions.Jump();
-        yield return new WaitForSeconds(2f);
-        StartCoroutine(fire());
+        yield return new WaitForSeconds(0.5f);
+        actions.Stay();
+        yield return new WaitForSeconds(0.5f);
+        running = false;
     }
 
     private void spawnBullet()
     {
         GameObject b = Instantiate(bullet, bulletSpawn.position, bulletSpawn.rotation);
-        //b.transform.Rotate(new Vector3(0,0,1), 90);
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.tag.Equals("deflected"))
+        {
+            dead = true;
+            StopCoroutine(fire());
+            actions.Death();
+        }
     }
 }

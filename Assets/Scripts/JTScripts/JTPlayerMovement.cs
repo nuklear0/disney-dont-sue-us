@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class JTPlayerMovement : MonoBehaviour {
 
@@ -11,6 +12,7 @@ public class JTPlayerMovement : MonoBehaviour {
     private int currentPosition = 0;
     private Vector3 movingVector;
     private GameManager gm;
+    private AudioSource[] audio;
 	// Use this for initialization
 	void Start () {
         loadScript = GameObject.FindGameObjectWithTag("level").GetComponent<JTLevelLoad>();
@@ -18,6 +20,8 @@ public class JTPlayerMovement : MonoBehaviour {
         createPositionArray();
         movingVector = getCurrentVector();
         gm = GameObject.Find("GameManager").GetComponent<GameManager>();
+        audio = gm.GetComponents<AudioSource>();
+        audio[2].Play();
         Physics.IgnoreLayerCollision(0, 9);
         Physics.IgnoreLayerCollision(8, 9);
     }
@@ -27,6 +31,10 @@ public class JTPlayerMovement : MonoBehaviour {
         if (currentPosition < directions.Length-1)
         {
             transform.Translate(movingVector * speed * Time.deltaTime);
+        }
+        else
+        {
+            StartCoroutine(restart());
         }
 	}
 
@@ -71,5 +79,14 @@ public class JTPlayerMovement : MonoBehaviour {
         yield return new WaitForSeconds(0.875f/speed);
         currentPosition++;
         movingVector = getCurrentVector();
+    }
+
+    IEnumerator restart()
+    {
+        audio[1].Stop();
+        yield return new WaitForSeconds(1f);
+        audio[2].Play();
+        yield return new WaitForSeconds(8f);
+        SceneManager.LoadScene(0);
     }
 }

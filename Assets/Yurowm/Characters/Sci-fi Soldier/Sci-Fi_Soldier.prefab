@@ -737,7 +737,7 @@ GameObject:
   - component: {fileID: 114292662387490190}
   m_Layer: 10
   m_Name: Sci-Fi_Soldier
-  m_TagString: box
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

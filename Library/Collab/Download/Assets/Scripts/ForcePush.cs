@@ -17,10 +17,9 @@ public class ForcePush : MonoBehaviour {
         pushableObjects = new List<GameObject>();
         pullableObjects = new List<GameObject>();
         states = gameObject.GetComponentInParent<States>();
+
         if (SceneManager.GetActiveScene().buildIndex != 3)
-        {
-            //audioScript = GameObject.FindGameObjectWithTag("gameManager").GetComponent<AudioScript>();
-        }
+            audioScript = GameObject.FindGameObjectWithTag("gameManager").GetComponent<AudioScript>();
     }
 	
 	// Update is called once per frame
@@ -41,6 +40,7 @@ public class ForcePush : MonoBehaviour {
             //}else 
             if (OVRInput.GetDown(OVRInput.Button.Up) || Input.GetKeyDown("space"))
             {
+                //Debug.Log(pushableObjects.Count);
                 //audioScript.playForcePushSound();
                 foreach (GameObject obj in pushableObjects)
                 {

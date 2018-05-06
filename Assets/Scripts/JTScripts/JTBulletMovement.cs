@@ -7,11 +7,12 @@ public class JTBulletMovement : MonoBehaviour {
     [SerializeField] GameObject explosion;
     [SerializeField] GameObject physicsExplosion;
     private bool deflected = false;
-
+    private Vector3 direction;
     bool ready = false;
     // Use this for initialization
     void Start()
     {
+        direction = new Vector3(0f, -7f, 0f);
         StartCoroutine(SelfDestruct());
         StartCoroutine(ProjectileReady());
     }
@@ -19,8 +20,7 @@ public class JTBulletMovement : MonoBehaviour {
     // Update is called once per frame
     void Update()
     {
-        if (!deflected)
-            transform.Translate(new Vector3(0f, -7f, 0f) * Time.deltaTime);
+        transform.Translate(direction * Time.deltaTime);
     }
 
     // To avoid having turrets getting blown up from spawning a projectile
@@ -36,7 +36,7 @@ public class JTBulletMovement : MonoBehaviour {
         Destroy(gameObject);
     }
 
-    private void OnCollisionEnter(Collision collision)
+    private void OnTriggerEnter(Collider collision)
     {
         if (collision.gameObject.name.Contains("Turret") && ready)
         {
@@ -51,8 +51,15 @@ public class JTBulletMovement : MonoBehaviour {
         {
             gameObject.GetComponent<AudioSource>().Play();
             deflected = true;
-            Vector3 pos = collision.contacts[0].point;
-            Instantiate(physicsExplosion, pos, new Quaternion(0, 0, 0, 0));
+            //RaycastHit hit;
+            //if (Physics.Raycast(transform.position, transform.forward, out hit))
+            //{
+            //    Vector3 pos = hit.point;
+            //    Instantiate(physicsExplosion, pos, new Quaternion(0, 0, 0, 0));
+            //}
+            direction = new Vector3(0f, 7f, 0f);
+            this.gameObject.tag = "deflected";
+            this.gameObject.layer = 0;
         }
     }
 }

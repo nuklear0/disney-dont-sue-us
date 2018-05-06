@@ -47,6 +47,7 @@ public class IntroGameManager : MonoBehaviour {
         {
             introStuff.SetActive(false);
             menuStuff.SetActive(true);
+            PlayerPrefs.SetInt("playedIntro", 1);
         }
     }
     

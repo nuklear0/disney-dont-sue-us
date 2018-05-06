@@ -17,7 +17,7 @@ public class CameraMove : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
         if ((OVRInput.Get(OVRInput.Button.PrimaryIndexTrigger) || Input.GetKey(KeyCode.DownArrow)) 
-            && SceneManager.GetActiveScene().buildIndex == 0 && PlayerPrefs.GetInt("playedIntro") == 1)
+            && SceneManager.GetActiveScene().buildIndex == 0)
         {
             Vector3 forward = vrCamera.TransformDirection(Vector3.forward);
             transform.Translate(forward * moveSpeed * Time.deltaTime);

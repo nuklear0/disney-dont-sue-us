@@ -22,6 +22,7 @@ TagManager:
   - bulletspawn
   - CanDestroy
   - Robot
+  - deflected
   layers:
   - Default
   - TransparentFX
@@ -35,7 +36,7 @@ TagManager:
   - Cone
   - Obstacle
   - PlayerHit
-  - 
+  - LaserSword
   - 
   - 
   - 

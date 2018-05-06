@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class TargetScript : MonoBehaviour {
 
@@ -8,9 +9,12 @@ public class TargetScript : MonoBehaviour {
     private AudioScript audioScript;
     private GameStats gameStats;
     private bool secondPhase = false;
+    [SerializeField] Text text;
+    private int score = 0;
 
 	// Use this for initialization
 	void Start () {
+        text.text = "Score: 0";
         audioScript = GameObject.FindGameObjectWithTag("gameManager").GetComponent<AudioScript>();
         gameStats = GameObject.FindGameObjectWithTag("gameManager").GetComponent<GameStats>();
     }
@@ -24,6 +28,8 @@ public class TargetScript : MonoBehaviour {
     {
         if (collider.gameObject.name.Contains("Asteroid"))
         {
+            score = score++;
+            text.text = "Score: " + score;
             StartCoroutine(respawnTarget(collider.gameObject));
         }
     }
